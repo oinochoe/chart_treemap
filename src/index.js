@@ -1,5 +1,5 @@
-import './styles/style.scss';
 import * as d3 from 'd3';
+import './styles/main.scss';
 
 var width = 100, // % units for CSS responsiveness
     height = 100,
