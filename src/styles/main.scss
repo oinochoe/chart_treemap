@@ -1,5 +1,13 @@
 @charset "utf-8";
-$m: 0;
+$m: 70;
+$color1: rgb(28, 31, 38);
+$color2: rgb(21, 26, 47);
+$color3: rgb(33, 35, 72);
+$color4: rgb(54, 129, 196);
+$color5: rgb(29, 143, 89);
+$color6: rgb(222, 176, 106);
+$color7: rgb(243, 180, 72);
+$color8: rgb(218, 71, 71);
 
 *,
 *:before,
@@ -16,32 +24,33 @@ body {
 }
 nav {
     position: fixed;
-    width: 100%;
     top: 0;
-    padding: 16px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 14px;
     z-index: 100;
+    background: $color1;
     .back {
-        width: 64px;
-        height: 64px;
+        width: 42px;
+        height: 42px;
         border-radius: 50%;
         background: url(../icn_back.svg) no-repeat;
+        opacity: 0.8;
         &:hover,
         &:focus {
-            filter: invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%);
+            opacity: 1;
         }
     }
     .breadcrumb {
         font: normal 16px/1 sans-serif;
         a {
+            margin-left: 1.25em;
             color: #fff;
             &:hover {
-                color: #d40;
-                &:after {
-                    color: #444;
-                }
+                color: $color6;
             }
             &:not(:last-child) {
-                margin-right: 1.25em;
                 &:after {
                     content: '/';
                     position: absolute;
@@ -53,47 +62,50 @@ nav {
         }
     }
 }
+
 #chart {
     position: relative;
-    width: calc(100% - #{$m} * 2 * 1px);
-    height: calc(100% - #{$m} * 2 * 1px);
-    margin: $m * 1px;
-    background: #aaa;
+    top: $m * 1px;
+    width: 100%;
+    height: calc(100% - #{$m} * 1px);
+    background: black;
     overflow: hidden;
 }
+
 .node {
     position: absolute;
     background: transparent no-repeat 50% / cover;
     border: 1px white solid;
     overflow: hidden;
     opacity: 0.8;
+    -webkit-transition: opacity 0.8s;
     transition: opacity 0.8s;
     cursor: pointer;
     .label {
         display: inline;
         font-family: sans-serif;
-        color: hsla(0, 0, 100, 0.8);
-        //white-space: nowrap;
+        color: #fff;
         position: absolute;
         padding: 0;
         margin: 0;
         top: 50%;
         left: 50%;
         transform: translateX(-50%) translateY(-50%);
+        -webki-transition: filter 0.8s;
         transition: filter 0.8s;
+        opacity: 0.8;
     }
     &.hide {
-        // zoom in
         opacity: 0;
         pointer-events: none;
         .label {
+            -webkit-filter: blur(10px);
             filter: blur(10px);
         }
     }
     &:hover {
-        background-color: #222 !important;
         .label {
-            color: hsla(0, 0, 100, 1);
+            opacity: 1;
         }
     }
     &.level-0 {
@@ -107,10 +119,10 @@ nav {
     }
     &.level-2 {
         z-index: 2;
-        font-size: 5vmin;
+        font-size: 7vmin;
     }
     &.level-3 {
         z-index: 1;
-        font-size: 2.5vmin;
+        font-size: 5vmin;
     }
 }
