@@ -26,17 +26,25 @@ nav {
     position: fixed;
     top: 0;
     width: 100%;
+    height: $m;
     display: flex;
     align-items: center;
     padding: 14px;
     z-index: 100;
     background: $color1;
+    -webkit-transform: translate3d(0, -$m * 1px, 0);
+    transform: translate3d(0, -$m * 1px, 0);
+    &.on {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
     .back {
+        display: block;
+        opacity: 0.8;
         width: 42px;
         height: 42px;
         border-radius: 50%;
         background: url(../icn_back.svg) no-repeat;
-        opacity: 0.8;
         &:hover,
         &:focus {
             opacity: 1;
@@ -65,32 +73,41 @@ nav {
 
 #chart {
     position: relative;
-    top: $m * 1px;
+    top: 0;
     width: 100%;
-    height: calc(100% - #{$m} * 1px);
+    height: 100%;
     background: black;
     overflow: hidden;
+    &.on {
+        top: $m * 1px;
+        height: calc(100% - #{$m} * 1px);
+    }
 }
 
 .node {
     position: absolute;
     background: transparent no-repeat 50% / cover;
-    border: 1px white solid;
+    border: 1px #aaa solid;
     overflow: hidden;
-    opacity: 0.8;
+    opacity: 0.9;
     -webkit-transition: opacity 0.8s;
     transition: opacity 0.8s;
     cursor: pointer;
-    .label {
-        display: inline;
-        font-family: sans-serif;
+    .value {
         color: #fff;
+        font-size: 20px;
+    }
+    .label {
+        display: block;
+        color: #fff;
+        font-size: 40px;
         position: absolute;
         padding: 0;
         margin: 0;
         top: 50%;
         left: 50%;
-        transform: translateX(-50%) translateY(-50%);
+        -webkit-transform: translate3d(-50%, -50%, 0);
+        transform: translate3d(-50%, -50%, 0);
         -webki-transition: filter 0.8s;
         transition: filter 0.8s;
         opacity: 0.8;
