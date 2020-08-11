@@ -1,161 +1,30 @@
 import * as d3 from 'd3';
+import { data } from './data';
 import './styles/main.scss';
 
-var width = 100, // % units for CSS responsiveness
-    height = 100,
-    //snap = 100/8,
-    snap = snap || 0.0001,
-    x = d3.scaleLinear().domain([0, width]).range([0, width]),
-    y = d3.scaleLinear().domain([0, height]).range([0, height]),
-    //blue = d3.hsl(216, 0.92, 0.68),
-    color = d3
-        .scaleOrdinal()
-        //.range([
-        //  d3.rgb(blue).brighter([0.25]),
-        //  d3.rgb(blue),
-        //  d3.rgb(blue).darker([0.25])
-        //]
-        .range(
-            d3.schemeDark2.map(function (c) {
-                c = d3.rgb(c);
-                //c.opacity = 0.5;
-                return c;
-            }),
-        ),
-    treemap = d3
-        .treemap()
-        .size([width, height])
-        .tile(
-            d3.treemapSquarify,
-            //.ratio(1)
-        )
-        .paddingInner(0)
-        .round(false), //true
-    data = {
-        name: 'Works',
-        children: [
-            {
-                name: 'Identity',
-                children: [
-                    {
-                        name: 'Auto Lenart',
-                        children: [
-                            { name: 'Photo 1', value: 'cgi-1.jpg' },
-                            { name: 'Photo 2', value: 'cgi-2.jpg' },
-                            { name: 'Photo 3', value: 'cgi-3.jpg' },
-                        ],
-                    },
-                    {
-                        name: 'PrintHouse Corporation',
-                        children: [
-                            { name: 'Photo 1', value: 'photo-1.jpg' },
-                            { name: 'Photo 2', value: 'photo-2.jpg' },
-                            { name: 'Photo 3', value: 'photo-3.jpg' },
-                            { name: 'Photo 4', value: 'photo-4.jpg' },
-                            { name: 'Photo 5', value: 'photo-5.jpg' },
-                        ],
-                    },
-                    {
-                        name: 'Mertz',
-                        children: [
-                            { name: 'Photo 1', value: 'epc-1.jpg' },
-                            { name: 'Photo 2', value: 'epc-2.jpg' },
-                            { name: 'Photo 3', value: 'epc-3.jpg' },
-                        ],
-                    },
-                    {
-                        name: 'Floor Plans',
-                        children: [
-                            { name: 'Photo 1', value: 'floorplan-1.jpg' },
-                            { name: 'Photo 2', value: 'floorplan-2.jpg' },
-                        ],
-                    },
-                ],
-            },
-            {
-                name: 'Web',
-                children: [
-                    {
-                        name: 'Litho',
-                        children: [
-                            { name: 'Photo 1', value: 'litho-1.jpg' },
-                            { name: 'Photo 2', value: 'litho-2.jpg' },
-                            { name: 'Photo 3', value: 'litho-3.jpg' },
-                            { name: 'Photo 4', value: 'litho-4.jpg' },
-                            { name: 'Photo 5', value: 'litho-5.jpg' },
-                            { name: 'Photo 6', value: 'litho-6.jpg' },
-                        ],
-                    },
-                    {
-                        name: 'Digital',
-                        children: [
-                            { name: 'Photo 1', value: 'digital-1.jpg' },
-                            { name: 'Photo 2', value: 'digital-2.jpg' },
-                            { name: 'Photo 3', value: 'digital-3.jpg' },
-                            { name: 'Photo 4', value: 'digital-4.jpg' },
-                        ],
-                    },
-                ],
-            },
-            {
-                name: 'Finish',
-                children: [
-                    {
-                        name: 'Folding',
-                        children: [
-                            { name: 'Photo 1', value: 'folding-1.jpg' },
-                            { name: 'Photo 2', value: 'folding-2.jpg' },
-                            { name: 'Photo 3', value: 'folding-3.jpg' },
-                        ],
-                    },
-                    {
-                        name: 'Stitched',
-                        children: [
-                            { name: 'Photo 1', value: 'stitched-1.jpg' },
-                            { name: 'Photo 2', value: 'stitched-2.jpg' },
-                            { name: 'Photo 3', value: 'stitched-3.jpg' },
-                            { name: 'Photo 4', value: 'stitched-4.jpg' },
-                            { name: 'Photo 5', value: 'stitched-5.jpg' },
-                        ],
-                    },
-                    {
-                        name: 'Sewn',
-                        children: [
-                            { name: 'Photo 1', value: 'sewn-1.jpg' },
-                            { name: 'Photo 2', value: 'sewn-2.jpg' },
-                            { name: 'Photo 3', value: 'sewn-3.jpg' },
-                        ],
-                    },
-                    {
-                        name: 'Softback',
-                        children: [
-                            { name: 'Photo 1', value: 'softback-1.jpg' },
-                            { name: 'Photo 3', value: 'softback-2.jpg' },
-                        ],
-                    },
-                    {
-                        name: 'Hardback',
-                        children: [
-                            { name: 'Photo 1', value: 'hardback-1.jpg' },
-                            { name: 'Photo 2', value: 'hardback-2.jpg' },
-                            { name: 'Photo 3', value: 'hardback-3.jpg' },
-                            { name: 'Photo 4', value: 'hardback-4.jpg' },
-                        ],
-                    },
-                ],
-            },
-        ],
-    },
-    nodes = d3.hierarchy(data).sum(function (d) {
-        return d.value ? 1 : 0;
+const width = 100;
+const height = 100;
+const snap = snap || 0.0001;
+const x = d3.scaleLinear().domain([0, width]).range([0, width]);
+const y = d3.scaleLinear().domain([0, height]).range([0, height]);
+const colorMap = ['#4e74b2', '#3e5b94', '#223162', '#282e4a', '#3e3f4c', '#4b4944', '#ae8f59', '#d8ad62', '#dcaf5c', '#dfb257', '#e2b752'];
+
+let resizeTimer;
+let currentDepth;
+
+const color = d3.scaleOrdinal().range(
+    colorMap.map(function (c) {
+        c = d3.rgb(c);
+        return c;
     }),
-    resizeTimer,
-    currentDepth;
+);
+const treemap = d3.treemap().size([width, height]).tile(d3.treemapSquarify).paddingInner(0).round(false);
+const nodes = d3.hierarchy(data).sum(function (d) {
+    return d.value ? 1 : 0;
+});
 
-treemap(nodes);
-
-var chart = d3.select('#chart');
-var cells = chart
+const chart = d3.select('#chart');
+const cells = chart
     .selectAll('.node')
     .data(nodes.descendants())
     .enter()
@@ -167,10 +36,9 @@ var cells = chart
         return d.data.name ? d.data.name : 'null';
     });
 
+treemap(nodes);
 cells
-    //.style("transform", function(d) { return "translateY(" + chart.node().clientHeight * y(d.y0) / 100 + ")"; })
     .style('left', function (d) {
-        //console.log( x(d.x0) + " => " + nearest(x(d.x0), snap) );
         return nearest(x(d.x0), snap) + '%';
     })
     .style('top', function (d) {
@@ -187,7 +55,7 @@ cells
     //.style("background-image", function(d) { return d.value ? imgUrl + d.value : ""; })
     .style('background-color', function (d) {
         while (d.depth > 1) d = d.parent;
-        return color(d.data.name);
+        return color(d.data.value);
     })
     .on('click', zoom);
 
