@@ -198,7 +198,7 @@ cells
         return d.data.name ? d.data.name : 'null';
     });
 
-var parent = d3.select('.logo').datum(nodes).on('click', zoom);
+var parent = d3.select('.back').datum(nodes).on('click', zoom);
 
 // can't resquarify as we use 100*100% treemap size. Doh!
 d3.select(window).on('resize', function () {
@@ -210,8 +210,6 @@ showPath(nodes.ancestors());
 
 function zoom(d) {
     // http://jsfiddle.net/ramnathv/amszcymq/
-
-    console.log('clicked: ' + d.data.name + ', depth: ' + d.depth);
 
     showPath(d.ancestors());
 
